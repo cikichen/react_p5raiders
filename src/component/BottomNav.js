@@ -1,105 +1,13 @@
 import React from "react";
-import { Carousel, Grid, TabBar } from "antd-mobile";
-import { connect } from "react-redux";
-import { simpleAction } from "./actions/SimpleAction";
+import { TabBar } from "antd-mobile";
 
-const mapStateToProps = state => ({
-  ...state
-});
-
-const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
-});
-
-const data = Array.from(new Array(8)).map((_val, i) => ({
-  icon: "https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png",
-  text: `name${i}`
-}));
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedTab: "redTab",
-      hidden: false,
-      fullScreen: true,
-      data: ["1", "2", "3"],
-      imgHeight: 200
-    };
-  }
-
-  componentDidMount() {
-    // simulate img loading
-    setTimeout(() => {
-      this.setState({
-        data: [
-          "AiyWuByWklrrUDlFignR",
-          "TekJlZRVCjLFexlOCuWn",
-          "IJOtIlfsYdTyaDTRVrLI"
-        ]
-      });
-    }, 100);
-  }
-
-  renderContent(pageText) {
-    return (
-      <div
-        style={{
-          backgroundColor: "white",
-          height: "100%",
-          textAlign: "center"
-        }}
-      >
-        <Carousel
-          autoplay={true}
-          infinite
-          beforeChange={(from, to) =>
-            console.log(`slide from ${from} to ${to}`)
-          }
-          afterChange={index => console.log("slide to", index)}
-        >
-          {this.state.data.map(val => (
-            <a
-              key={val}
-              href="http://www.alipay.com"
-              style={{
-                display: "inline-block",
-                width: "100%",
-                height: this.state.imgHeight
-              }}
-            >
-              <img
-                src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
-                alt=""
-                style={{ width: "100%", verticalAlign: "top", height: 200 }}
-                onLoad={() => {
-                  // fire window resize event to change height
-                  window.dispatchEvent(new Event("resize"));
-                  this.setState({ imgHeight: "auto" });
-                }}
-              />
-            </a>
-          ))}
-        </Carousel>
-        <Grid data={data} columnNum={3} />
-      </div>
-    );
-  }
-
+class BottomNav extends React.Component {
+  state = {
+    hidden: this.props.hidden
+  };
   render() {
     return (
-      <div
-        style={
-          this.state.fullScreen
-            ? {
-                position: "fixed",
-                height: "100%",
-                width: "100%",
-                top: 0
-              }
-            : { height: 400 }
-        }
-      >
+      <div>
         <TabBar
           unselectedTintColor="#949494"
           tintColor="#33A3F4"
@@ -233,7 +141,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default BottomNav;
